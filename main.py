@@ -15,8 +15,9 @@ if __name__ == "__main__":
     diameter_const = 3
 
     while True:
-        k.update((random.uniform(0.25, 0.5) * random.randrange(-1, 2, 2), random.uniform(0.25, 0.5) * random.randrange(-1, 2, 2)), alpha=cur_alpha, diameter=diameter_const * ((count+1)/500)**-0.75)
-        # k.update((random.uniform(-1, 1), random.uniform(-1, 1)), alpha=cur_alpha, diameter=5)
+        print(1)
+        # k.update((random.uniform(0.25, 0.5) * random.randrange(-1, 2, 2), random.uniform(0.25, 0.5) * random.randrange(-1, 2, 2)), alpha=cur_alpha, diameter=diameter_const * ((count+1)/500)**-0.75)
+        k.update((random.uniform(-1, 1), random.uniform(-1, 1)), alpha=cur_alpha, diameter=5)
 
         if count % alpha_const == 0:
             cur_alpha *= alpha_speed

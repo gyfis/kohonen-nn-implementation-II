@@ -1,72 +1,53 @@
-import matplotlib.pyplot as plt
-import numpy as np
-
-points, = plt.plot([], [], 'ro')
-lines, = plt.plot([], [], 'b-')
-plt.ion()
-
-
-def clear():
-    points.set_xdata([])
-    points.set_ydata([])
-    lines.set_xdata([])
-    lines.set_ydata([])
-
-
-def visualize_old(kohonen):
-    # clear()
-    pass
-
 import lateral_inhibitions
 from itertools import product
 
 
-def visualize(kohonen):
+def visualize(kohonen, points, lines):
     if kohonen.lateral_inhibition == lateral_inhibitions.gauss:
-        visualize_square(kohonen)
+        return visualize_square(kohonen, points, lines)
     if kohonen.lateral_inhibition == lateral_inhibitions.gauss_hex:
-        visualize_hex(kohonen)
+        return visualize_hex(kohonen, points, lines)
 
 
-def visualize_square(kohonen):
-    for neuron_id in kohonen.neuron_id_iterator():
-        plt.plot(*kohonen.neurons[neuron_id], 'ro')
+def visualize_square(kohonen, points, lines):
+    points.set_data(list(zip(*[kohonen.neurons[neuron_id] for neuron_id in kohonen.neuron_id_iterator()])))
 
+    lines_data = []
     dims = kohonen.dims()
-    for row, (i, j) in product(range(dims[0]), zip(range(dims[1]), range(dims[1])[1:])):
-        plt.plot(*(lambda a, b: ((a[0], b[0]), (a[1], b[1])))(kohonen.neurons[row, i],kohonen.neurons[row, j]), 'b-')
 
+    for row, (i, j) in product(range(dims[0]), zip(range(dims[1]), range(dims[1])[1:])):
+        lines_data.append(list(zip(*(kohonen.neurons[row, i], kohonen.neurons[row, j]))))
     for column, (i, j) in product(range(dims[1]), zip(range(dims[0]), range(dims[0])[1:])):
-        plt.plot(*(lambda a, b: ((a[0], b[0]), (a[1], b[1])))(kohonen.neurons[i, column],kohonen.neurons[j, column]), 'b-')
+        lines_data.append(list(zip(*(kohonen.neurons[i, column], kohonen.neurons[j, column]))))
 
-    plt.show()
+    lines.set_data(list(zip(*lines_data)))
 
 
-def visualize_hex(kohonen):
-    for neuron_id in kohonen.neuron_id_iterator():
-        points.set_xdata(np.append(points.get_xdata(), kohonen.neurons[neuron_id][0]))
-        points.set_xdata(np.append(points.get_ydata(), kohonen.neurons[neuron_id][1]))
+def visualize_hex(kohonen, points, lines):
+
+    points_data = []
+    lines_data = []
 
     dims = kohonen.dims()
     for row, (i, j) in product(range(dims[0]), zip(range(dims[1]), range(dims[1])[1:])):
-        plt.plot(*(lambda a, b: ((a[0], b[0]), (a[1], b[1])))(kohonen.neurons[row, i], kohonen.neurons[row, j]), 'b-')
+        points_data.append(list(zip(*(kohonen.neurons[row, i], kohonen.neurons[row, j]))))
 
     # Downwards
     # Recommended to not mess with this
     # Every neuron is connected to neuron with offset (0, +1)
     for i, j in zip(range(dims[0]), range(dims[0])[1:]):
         for column in range(dims[1]):
-            plt.plot(*(lambda a, b: ((a[0], b[0]), (a[1], b[1])))(kohonen.neurons[i, column],kohonen.neurons[j, column]), 'b-')
+            lines_data.append(list(zip(*(kohonen.neurons[i, column], kohonen.neurons[j, column]))))
 
     # Even neurons are connected to neuron with offset (-1, +1)
     for i, j in list(zip(range(dims[0]), range(dims[1])[1:]))[::2]:
         for col1, col2 in zip(range(dims[1])[1:], range(dims[1])):
-            plt.plot(*(lambda a, b: ((a[0], b[0]), (a[1], b[1])))(kohonen.neurons[i, col1],kohonen.neurons[j, col2]), 'b-')
+            lines_data.append(list(zip(*(kohonen.neurons[i, col1], kohonen.neurons[j, col2]))))
 
     # Odd neurons are connected to neuron with offset (+1, +1)
     for i, j in list(zip(range(dims[0]), range(dims[1])[1:]))[1::2]:
         for col1, col2 in zip(range(dims[1]), range(dims[1])[1:]):
-            plt.plot(*(lambda a, b: ((a[0], b[0]), (a[1], b[1])))(kohonen.neurons[i, col1],kohonen.neurons[j, col2]), 'b-')
+            lines_data.append(list(zip(*(kohonen.neurons[i, col1], kohonen.neurons[j, col2]))))
 
-    plt.show()
-    plt.pause(1)
+    points.set_data(list(zip(*points_data)))
+    lines.set_data(list(zip(*lines_data)))

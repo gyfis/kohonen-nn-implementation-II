@@ -2,6 +2,12 @@ import numpy as np
 from itertools import product
 from operator import sub
 import lateral_inhibitions
+from enum import Enum
+
+
+class Layout(Enum):
+    square = 1,
+    hex = 2
 
 
 def dist(neuron1, neuron2):
@@ -13,12 +19,12 @@ def id_dist(id1, id2):
 
 
 class Kohonen:
-    def __init__(self, neuron_size=2, dims=(15, 15), layout="square", init_type=None, init_range=(-0.1, 0.1)):
+    def __init__(self, neuron_size=2, dims=(15, 15), layout=Layout.square, init_type=None, init_range=(-0.1, 0.1)):
         size = dims + (neuron_size, )
         self.neurons = np.random.uniform(init_range[0], init_range[1], size) if init_type else np.zeros(size)
         self.lateral_inhibition = {
-            "square": lateral_inhibitions.gauss,
-            "hex": lateral_inhibitions.gauss_hex
+            Layout.square: lateral_inhibitions.gauss,
+            Layout.hex: lateral_inhibitions.gauss_hex
         }[layout]
 
     def neuron_id_iterator(self):

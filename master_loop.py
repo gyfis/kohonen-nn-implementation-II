@@ -37,7 +37,7 @@ def run(k, update_func=updater.uniform,
     def loop(i):
         for j in range(vis_steps):
             update_func(k, curr_alpha=curr_alpha, curr_diameter=curr_diameter)
-            update_attributes(i * j)
+            update_attributes(i * vis_steps + j)
         visualize(k, points, lines)
         return points, lines
 
@@ -45,5 +45,5 @@ def run(k, update_func=updater.uniform,
 
     if save_as_gif:
         anim.save('gifs/%s.gif' % save_as_gif, writer='imagemagick')
-
-    plt.show()
+    else:
+        plt.show()

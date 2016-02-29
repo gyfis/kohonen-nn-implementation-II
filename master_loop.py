@@ -14,10 +14,11 @@ def run(k, update_func=updater.uniform,
 
     fig = plt.figure()
     ax = fig.add_subplot(111, xlim=xlim, ylim=ylim)
+
+    global curr_alpha, curr_diameter, points, lines
+
     points, = ax.plot([], [], points_style)
     lines, = ax.plot([], [], lines_style)
-
-    global curr_alpha, curr_diameter
 
     curr_alpha = alpha_init
     curr_diameter = diameter_init
@@ -45,5 +46,5 @@ def run(k, update_func=updater.uniform,
 
     if save_as_gif:
         anim.save('gifs/%s.gif' % save_as_gif, writer='imagemagick')
-    else:
-        plt.show()
+
+    plt.show()

@@ -18,7 +18,7 @@ if __name__ == "__main__":
     diameter_const = 50
     diameter_speed = 0.98
 
-    run(k, update_func=updater.window_border, steps=7000, vis_steps=20,
+    run(k, update_func=updater.uniform, steps=20000, vis_steps=20,
         alpha_init=alpha_init, alpha_const=alpha_const, alpha_speed=alpha_speed,
         diameter_init=diameter_init, diameter_const=diameter_const, diameter_speed=diameter_speed,
-        save_as_gif=False)
+        save_as_gif=None)

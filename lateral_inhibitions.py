@@ -1,7 +1,7 @@
 import math
 from operator import sub
 
-
+# Manhattan distance... TODO: Go Euclidian
 def __id_dist(id1, id2):
     return sum(map(abs, map(sub, id1, id2)))
 

@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 from visualizer import visualize
 import updater
+from matplotlib import collections as mc
 
 
 def run(k, update_func=updater.uniform,
@@ -18,7 +19,7 @@ def run(k, update_func=updater.uniform,
     global curr_alpha, curr_diameter, points, lines
 
     points, = ax.plot([], [], points_style)
-    lines, = ax.plot([], [], lines_style)
+    lines_collection = mc.LineCollection([])
 
     curr_alpha = alpha_init
     curr_diameter = diameter_init
@@ -32,15 +33,15 @@ def run(k, update_func=updater.uniform,
             curr_diameter *= diameter_speed
 
     def init():
-        lines.set_data([], [])
         points.set_data([], [])
+        ax.add_collection(lines_collection)
 
     def loop(i):
         for j in range(vis_steps):
             update_func(k, curr_alpha=curr_alpha, curr_diameter=curr_diameter)
             update_attributes(i * vis_steps + j)
-        visualize(k, points, lines)
-        return points, lines
+        visualize(k, points, lines_collection)
+        return points, lines_collection
 
     anim = animation.FuncAnimation(fig, loop, init_func=init, frames=steps // vis_steps, interval=1, repeat=False)
 

@@ -20,6 +20,11 @@ def visualize_square(kohonen, points, lines):
     for column, (i, j) in product(range(dims[1]), zip(range(dims[0]), range(dims[0])[1:])):
         lines_data.append(list(zip(*(kohonen.neurons[i, column], kohonen.neurons[j, column]))))
 
+    def flatten(l):
+        return list([l[0][0][0]] + list(t[1] for t in l[0])), list([l[1][0][0]] + list(t[1] for t in l[1]))
+
+    # print(flatten(list(zip(*lines_data))))
+    # lines.set_data(flatten(list(zip(*lines_data))))
     lines.set_data(list(zip(*lines_data)))
 
 

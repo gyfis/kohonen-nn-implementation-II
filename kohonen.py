@@ -23,7 +23,7 @@ class Kohonen:
         size = dims + (neuron_size, )
         self.neurons = np.random.uniform(init_range[0], init_range[1], size) if init_type else np.zeros(size)
         self.lateral_inhibition = {
-            Layout.square: lateral_inhibitions.gauss,
+            Layout.square: lateral_inhibitions.gauss_limited,
             Layout.hex: lateral_inhibitions.gauss_hex
         }[layout]
 

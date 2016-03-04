@@ -18,5 +18,9 @@ def gauss(id1, id2, diameter):
     return math.e**-(__id_euc_dist(id1, id2) / diameter)**2
 
 
+def gauss_limited(id1, id2, diameter):
+    return math.e**-(__id_euc_dist(id1, id2) / diameter)**2 if diameter > 1 else int(id1 == id2)
+
+
 def gauss_hex(id1, id2, diameter):
     return math.e**-(__id_euc_dist(hex_loc(id1), hex_loc(id2)) / diameter)**2

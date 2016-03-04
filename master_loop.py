@@ -5,10 +5,9 @@ import updater
 from matplotlib import collections as mc
 
 
-def run(k, update_func=updater.uniform,
+def run(k, alpha_stepper, diameter_stepper,
+        update_func=updater.uniform,
         steps=1000, vis_steps=50,
-        alpha_init=0.3, alpha_const=100, alpha_speed=0.95,
-        diameter_init=3, diameter_const=1, diameter_speed=1,
         xlim=(-1, 1), ylim=(-1, 1),
         points_style='ro', lines_style='b-',
         save_as_gif=False):
@@ -16,21 +15,10 @@ def run(k, update_func=updater.uniform,
     fig = plt.figure()
     ax = fig.add_subplot(111, xlim=xlim, ylim=ylim)
 
-    global curr_alpha, curr_diameter, points, lines
+    global points, lines
 
     points, = ax.plot([], [], points_style)
     lines_collection = mc.LineCollection([])
-
-    curr_alpha = alpha_init
-    curr_diameter = diameter_init
-
-    def update_attributes(i):
-        global curr_alpha, curr_diameter
-
-        if i % alpha_const == 0:
-            curr_alpha *= alpha_speed
-        if i % diameter_const == 0:
-            curr_diameter *= diameter_speed
 
     def init():
         points.set_data([], [])
@@ -38,9 +26,9 @@ def run(k, update_func=updater.uniform,
 
     def loop(i):
         for j in range(vis_steps):
-            update_func(k, curr_alpha=curr_alpha, curr_diameter=curr_diameter)
-            update_attributes(i * vis_steps + j)
+            update_func(k, curr_alpha=alpha_stepper(i * vis_steps + j), curr_diameter=diameter_stepper(i * vis_steps + j))
         visualize(k, points, lines_collection)
+        print(diameter_stepper(i * vis_steps + j))
         return points, lines_collection
 
     anim = animation.FuncAnimation(fig, loop, init_func=init, frames=steps // vis_steps, interval=1, repeat=False)

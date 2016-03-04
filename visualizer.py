@@ -2,7 +2,7 @@ import lateral_inhibitions
 from itertools import product
 
 def visualize(kohonen, points, lines_col):
-    if kohonen.lateral_inhibition == lateral_inhibitions.gauss:
+    if kohonen.lateral_inhibition == lateral_inhibitions.gauss_limited:
         return visualize_square(kohonen, points, lines_col)
     if kohonen.lateral_inhibition == lateral_inhibitions.gauss_hex:
         return visualize_hex(kohonen, points, lines_col)
@@ -14,10 +14,10 @@ def visualize_square(kohonen, points, lines_col):
     lines_data = []
     dims = kohonen.dims()
 
-    for row, (i, j) in product(range(dims[0]), zip(range(dims[1]), range(dims[1])[1:])):
-        lines_data.append((kohonen.neurons[row, i], kohonen.neurons[row, j]))
-    for column, (i, j) in product(range(dims[1]), zip(range(dims[0]), range(dims[0])[1:])):
-        lines_data.append((kohonen.neurons[i, column], kohonen.neurons[j, column]))
+    # for row, (i, j) in product(range(dims[0]), zip(range(dims[1]), range(dims[1])[1:])):
+    #     lines_data.append((kohonen.neurons[row, i], kohonen.neurons[row, j]))
+    # for column, (i, j) in product(range(dims[1]), zip(range(dims[0]), range(dims[0])[1:])):
+    #     lines_data.append((kohonen.neurons[i, column], kohonen.neurons[j, column]))
 
     lines_col.set_segments(lines_data)
 

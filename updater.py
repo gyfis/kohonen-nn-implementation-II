@@ -14,3 +14,11 @@ def window_border(k, curr_alpha=100, curr_diameter=3):
 
 def uniform(k, curr_alpha=100, curr_diameter=3):
     k.update((random.uniform(0, 1), random.uniform(0, 1)), alpha=curr_alpha, diameter=curr_diameter)
+
+
+def image3dupdate(pix, k, curr_alpha=100, curr_diameter=3):
+    k.update(pix[random.randrange(0, pix.shape[0]), random.randrange(0, pix.shape[1])][:3], alpha=curr_alpha, diameter=curr_diameter)
+
+
+def image3d(pix):
+    return lambda k, curr_alpha, curr_diameter: image3dupdate(pix, k, curr_alpha, curr_diameter)

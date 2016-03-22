@@ -1,12 +1,10 @@
 import matplotlib.pyplot as plt
 from matplotlib import animation
 from visualizer import visualize3d, visualize
-from mpl_toolkits.mplot3d import axes3d, Axes3D
 import updater
 from matplotlib import collections as mc
 import numpy as np
 from scipy.spatial import cKDTree
-from itertools import product
 
 
 def run_3d(k, alpha_stepper, diameter_stepper,
@@ -14,7 +12,7 @@ def run_3d(k, alpha_stepper, diameter_stepper,
         steps=1000, vis_steps=50, image_steps=10,
         xlim=(-1, 1), ylim=(-1, 1), zlim=(-1, 1),
         points_style='ro', lines_style='b-',
-        pix=None, pix_size=None, save_as_gif=False):
+        pix=None, save_as_gif=False):
 
     fig = plt.figure()
     ax = fig.add_subplot(121, projection='3d')
@@ -32,9 +30,9 @@ def run_3d(k, alpha_stepper, diameter_stepper,
     # init points, lines
     points, lines = visualize3d(k)
 
-    plot_points = sum([ax.plot([], [], [], 'o', markersize=10) for _ in range(len(points))], [])
+    plot_points = sum([ax.plot([], [], [], points_style, markersize=10) for _ in range(len(points))], [])
     # plot_points = sum([ax.plot([], [], [], 'o') for _ in range(len(points))], [])
-    plot_lines = sum([ax.plot([], [], [], 'k-', alpha=0.25) for _ in range(len(lines))], [])
+    plot_lines = sum([ax.plot([], [], [], lines_style, alpha=0.25) for _ in range(len(lines))], [])
 
     # points, = ax.plot([], [], points_style)
     # points = []
@@ -94,7 +92,7 @@ def run_simple(k, alpha_stepper, diameter_stepper,
     ax = fig.add_subplot(111, xlim=xlim, ylim=ylim)
 
     points, = ax.plot([], [], points_style)
-    lines_collection = mc.LineCollection([])
+    lines_collection = mc.LineCollection([], linestyles=lines_style)
 
     def init():
         points.set_data([], [])
@@ -104,7 +102,7 @@ def run_simple(k, alpha_stepper, diameter_stepper,
         for j in range(vis_steps):
             update_func(k, curr_alpha=alpha_stepper(i * vis_steps + j), curr_diameter=diameter_stepper(i * vis_steps + j))
         visualize(k, points, lines_collection)
-        print(diameter_stepper(i * vis_steps + j))
+        print(diameter_stepper(i * vis_steps))
         return points, lines_collection
 
     anim = animation.FuncAnimation(fig, loop, init_func=init, frames=steps // vis_steps, interval=1, repeat=False)

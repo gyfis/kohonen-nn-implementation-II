@@ -1,5 +1,5 @@
 import lateral_inhibitions
-from itertools import product, cycle, islice
+from itertools import product
 
 
 def visualize(kohonen, points, lines_col):

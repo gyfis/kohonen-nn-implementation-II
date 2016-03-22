@@ -19,7 +19,7 @@ def id_dist(id1, id2):
 
 
 class Kohonen:
-    def __init__(self, dims=(15, 15), layout=Layout.square, init_type=None, init_range=(-0.1, 0.1)):
+    def __init__(self, dims=(15, 15), layout=Layout.square, init_type=None, init_range=(0.4, 0.6)):
         size = dims + (len(dims), )
         self.neurons = np.random.uniform(init_range[0], init_range[1], size) if init_type else np.zeros(size)
         self.lateral_inhibition = {

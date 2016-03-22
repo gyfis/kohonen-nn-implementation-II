@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib import animation
-from visualizer import visualize3d
+from visualizer import visualize3d, visualize
 from mpl_toolkits.mplot3d import axes3d, Axes3D
 import updater
 from matplotlib import collections as mc
@@ -22,7 +22,7 @@ def run_3d(k, alpha_stepper, diameter_stepper,
     orig_im = fig.add_subplot(224)
     orig_im.imshow(np.array(pix))
 
-    im_data = im.imshow(np.array(pix))
+    im_data = im.imshow(pix)
     # new_im_data = np.copy(im_data)
 
     ax.set_xlim3d(xlim)
@@ -45,10 +45,10 @@ def run_3d(k, alpha_stepper, diameter_stepper,
     # lines_collection = mc.LineCollection([])
     #
     global image_i
-    image_i = 0
+    image_i = -1
 
     def loop(i):
-
+        print(i, image_i)
         for j in range(vis_steps):
             update_func(k, curr_alpha=alpha_stepper(i * vis_steps + j), curr_diameter=diameter_stepper(i * vis_steps + j))
         points, lines = visualize3d(k)
@@ -77,8 +77,8 @@ def run_3d(k, alpha_stepper, diameter_stepper,
 
     anim = animation.FuncAnimation(fig, loop, frames=steps // vis_steps, interval=1, repeat=False)
 
-    # if save_as_gif:
-    #     anim.save('gifs/%s.gif' % save_as_gif, writer='imagemagick')
+    if save_as_gif:
+        anim.save('gifs/{}.gif'.format(save_as_gif), writer='imagemagick')
 
     plt.show()
 
@@ -112,6 +112,6 @@ def run_simple(k, alpha_stepper, diameter_stepper,
     anim = animation.FuncAnimation(fig, loop, init_func=init, frames=steps // vis_steps, interval=1, repeat=False)
 
     if save_as_gif:
-        anim.save('gifs/%s.gif' % save_as_gif, writer='imagemagick')
+        anim.save('gifs/{}.gif'.format(save_as_gif), writer='imagemagick')
 
     plt.show()

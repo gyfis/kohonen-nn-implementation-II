@@ -7,7 +7,7 @@ import matplotlib.image as mpimg
 
 
 if __name__ == "__main__":
-    im = mpimg.imread('images/colorful_girl.png')
+    im = mpimg.imread('images/autumn.png')
 
     k = Kohonen(dims=(4, 4, 8), layout=Layout.square, init_type=None)
 
@@ -17,6 +17,6 @@ if __name__ == "__main__":
     run_3d(k, alpha_stepper=default_step(init_val=alpha_init, step_every=100, p=-0.9),
            diameter_stepper=default_step(init_val=diameter_init, step_every=50, p=-0.5),
            xlim=(0, 1), ylim=(0, 1), zlim=(0, 1),
-           update_func=updater.image3d(im), steps=50000, vis_steps=20,
-           pix=im, save_as_gif=None)
+           update_func=updater.image3d(im), steps=1000, vis_steps=5, image_steps=1,
+           pix=im)
 

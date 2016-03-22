@@ -93,8 +93,6 @@ def run_simple(k, alpha_stepper, diameter_stepper,
     fig = plt.figure()
     ax = fig.add_subplot(111, xlim=xlim, ylim=ylim)
 
-    global points, lines
-
     points, = ax.plot([], [], points_style)
     lines_collection = mc.LineCollection([])
 

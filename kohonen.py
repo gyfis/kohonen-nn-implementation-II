@@ -18,7 +18,7 @@ def id_dist(id1, id2):
     return sum(map(abs, map(sub, id1, id2)))
 
 
-class Kohonen:
+class Kohonen(object):
     def __init__(self, dims=(15, 15), layout=Layout.square, init_type=None, init_range=(0.4, 0.6)):
         size = dims + (len(dims), )
         self.neurons = np.random.uniform(init_range[0], init_range[1], size) if init_type else np.zeros(size)
@@ -40,7 +40,3 @@ class Kohonen:
         for neuron_id in self.neuron_id_iterator():
             neuron = self.neurons[neuron_id]
             neuron += self.lateral_inhibition(neuron_id, min_neuron_id, diameter) * (weights - neuron) * alpha
-
-    @staticmethod
-    def lateral_inhibition(id1, id2, diameter):
-        raise AttributeError("Undefined lateral inhibition. Incorrectly called constructor?")

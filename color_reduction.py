@@ -2,7 +2,6 @@ from kohonen import Kohonen, Layout
 from master_loop import run_3d
 from stepper import default_step
 import updater
-from PIL import Image
 import matplotlib.image as mpimg
 
 

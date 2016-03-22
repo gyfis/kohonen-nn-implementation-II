@@ -38,7 +38,7 @@ def run_3d(k, alpha_stepper, diameter_stepper,
 
     # points, = ax.plot([], [], points_style)
     # points = []
-    # lines = [ax.plot([], [], [])[0] for dat in počet čar]
+    # lines = [ax.plot([], [], [])[0] for dat in pocet car]
 
     # drawn = []
 

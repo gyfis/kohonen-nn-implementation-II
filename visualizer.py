@@ -43,7 +43,6 @@ def visualize3d(kohonen):
     for column, layer, (i, j) in product(range(dims[2]), range(dims[0]), neighbors(dims[1])):
         lines.append((kohonen.neurons[layer, i, column], kohonen.neurons[layer, j, column]))
 
-
     return points, lines
 
 

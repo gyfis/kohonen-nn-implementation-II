@@ -46,7 +46,6 @@ def run_swap(k1, k2, alpha_stepper, diameter_stepper,
     plot_points2 = sum([ax2.plot([], [], [], points_style, markersize=10) for _ in range(len(points2))], [])
     plot_lines2 = sum([ax2.plot([], [], [], lines_style, alpha=0.25) for _ in range(len(lines2))], [])
 
-
     global image_i
     image_i = -1
 
@@ -107,7 +106,7 @@ def run_swap(k1, k2, alpha_stepper, diameter_stepper,
 
 def run_3d(k, alpha_stepper, diameter_stepper,
         update_func=updater.image3d,
-        steps=1000, vis_steps=50, image_steps=10,
+        steps=1000000, vis_steps=50, image_steps=10,
         xlim=(-1, 1), ylim=(-1, 1), zlim=(-1, 1),
         points_style='o', lines_style='k-',
         pix=None, save_as_gif=False):
@@ -144,7 +143,6 @@ def run_3d(k, alpha_stepper, diameter_stepper,
     image_i = -1
 
     def loop(i):
-
         for j in range(vis_steps):
             update_func(k, curr_alpha=alpha_stepper(i * vis_steps + j), curr_diameter=diameter_stepper(i * vis_steps + j))
         points, lines = visualize3d(k)
@@ -172,6 +170,9 @@ def run_3d(k, alpha_stepper, diameter_stepper,
 
             im_data.set_data(nppoints[new_pix_idx])
 
+            print(list(map(list, points)))
+
+    print(steps // vis_steps)
     anim = animation.FuncAnimation(fig, loop, frames=steps // vis_steps, interval=1, repeat=False)
 
     if save_as_gif:

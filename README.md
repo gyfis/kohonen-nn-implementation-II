@@ -1,4 +1,4 @@
-# kohonen-nn-implementation-II
+# Palette extraction and other tasks using Kohonen self-organizing maps
 
 This is our implementation of Kohonen algorithm for palette reduction. Here are some examples of `color_reduction.py`:
 

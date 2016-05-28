@@ -6,14 +6,15 @@ from matplotlib import collections as mc
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 from scipy.spatial import cKDTree
+del Axes3D
 
 
 def run_swap(k1, k2, alpha_stepper, diameter_stepper,
-        update_func1=updater.image3d, update_func2=updater.image3d,
-        steps=1000, vis_steps=50, image_steps=10,
-        xlim=(-1, 1), ylim=(-1, 1), zlim=(-1, 1),
-        points_style='o', lines_style='k-',
-        pix1=None, pix2=None, save_as_gif=False):
+             update_func1=updater.image3d, update_func2=updater.image3d,
+             steps=1000, vis_steps=50, image_steps=10,
+             xlim=(-1, 1), ylim=(-1, 1), zlim=(-1, 1),
+             points_style='o', lines_style='k-',
+             pix1=None, pix2=None, save_as_gif=False):
 
     fig = plt.figure()
     ax1 = fig.add_subplot(231, projection='3d')
@@ -105,20 +106,26 @@ def run_swap(k1, k2, alpha_stepper, diameter_stepper,
 
 
 def run_3d(k, alpha_stepper, diameter_stepper,
-        update_func=updater.image3d,
-        steps=1000000, vis_steps=50, image_steps=10,
-        xlim=(-1, 1), ylim=(-1, 1), zlim=(-1, 1),
-        points_style='o', lines_style='k-',
-        pix=None, save_as_gif=False):
+           update_func=updater.image3d,
+           steps=1000000, vis_steps=50, image_steps=10,
+           xlim=(-1, 1), ylim=(-1, 1), zlim=(-1, 1),
+           points_style='o', lines_style='k-',
+           pix=None, save_as_gif=False):
 
     fig = plt.figure()
     ax = fig.add_subplot(121, projection='3d')
+    ax.set_title('palette')
+
     im = fig.add_subplot(222)
+    im.axis('off')
+    im.set_title('new image')
+
     orig_im = fig.add_subplot(224)
     orig_im.imshow(np.array(pix))
+    orig_im.axis('off')
+    orig_im.set_title('original image')
 
     im_data = im.imshow(pix)
-    # new_im_data = np.copy(im_data)
 
     ax.set_xlim3d(xlim)
     ax.set_ylim3d(ylim)
@@ -128,17 +135,8 @@ def run_3d(k, alpha_stepper, diameter_stepper,
     points, lines = visualize3d(k)
 
     plot_points = sum([ax.plot([], [], [], points_style, markersize=10) for _ in range(len(points))], [])
-    # plot_points = sum([ax.plot([], [], [], 'o') for _ in range(len(points))], [])
     plot_lines = sum([ax.plot([], [], [], lines_style, alpha=0.25) for _ in range(len(lines))], [])
 
-    # points, = ax.plot([], [], points_style)
-    # points = []
-    # lines = [ax.plot([], [], [])[0] for dat in pocet car]
-
-    # drawn = []
-
-    # lines_collection = mc.LineCollection([])
-    #
     global image_i
     image_i = -1
 
@@ -170,9 +168,6 @@ def run_3d(k, alpha_stepper, diameter_stepper,
 
             im_data.set_data(nppoints[new_pix_idx])
 
-            print(list(map(list, points)))
-
-    print(steps // vis_steps)
     anim = animation.FuncAnimation(fig, loop, frames=steps // vis_steps, interval=1, repeat=False)
 
     if save_as_gif:
@@ -185,7 +180,7 @@ def run_simple(k, alpha_stepper, diameter_stepper,
         update_func=updater.uniform,
         steps=1000, vis_steps=50,
         xlim=(-1, 1), ylim=(-1, 1),
-        points_style='ro', lines_style='b-',
+        points_style='ro', lines_style='-',
         save_as_gif=False):
 
     fig = plt.figure()
@@ -202,7 +197,6 @@ def run_simple(k, alpha_stepper, diameter_stepper,
         for j in range(vis_steps):
             update_func(k, curr_alpha=alpha_stepper(i * vis_steps + j), curr_diameter=diameter_stepper(i * vis_steps + j))
         visualize(k, points, lines_collection)
-        print(diameter_stepper(i * vis_steps))
         return points, lines_collection
 
     anim = animation.FuncAnimation(fig, loop, init_func=init, frames=steps // vis_steps, interval=1, repeat=False)
